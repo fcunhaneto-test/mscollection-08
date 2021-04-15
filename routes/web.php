@@ -26,3 +26,14 @@ Route::get('/', function () {
 
 Route::get('/filmes/{channel}', 'TitleController@start')->name('movies');
 Route::get('/series/{channel}', 'TitleController@start')->name('series');
+
+Route::get('/admin', function () {
+    $media = Media::all();
+    $slug = $media->first()->slug;
+
+    return redirect('/admin/filmes/' . $slug);
+});
+
+Route::get('/admin/filmes/{channel}', 'TitleController@start')->name('admin-movies');
+Route::get('/admin/series/{channel}', 'TitleController@start')->name('admin-series');
+

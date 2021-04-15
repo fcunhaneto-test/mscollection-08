@@ -14,3 +14,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('registro', 'Auth\AuthenticatorController@register');
 Route::post('login', 'Auth\AuthenticatorController@login');
 Route::post('logout', 'Auth\AuthenticatorController@logout');
+
+Route::prefix('media')->group(function() {
+    Route::get('', 'Qualifiers\MediaController@index');
+});
+
+Route::prefix('category')->group(function() {
+    Route::get('', 'Qualifiers\CategoryController@index');
+});
+
+Route::prefix('producer')->group(function() {
+    Route::post('/store', 'Cast\ProducerController@store');
+});
+
+Route::prefix('cast')->group(function() {
+    Route::post('/store', 'Cast\CastController@store');
+});
+
+Route::prefix('title')->group(function() {
+    Route::post('/store', 'TitleController@store');
+});

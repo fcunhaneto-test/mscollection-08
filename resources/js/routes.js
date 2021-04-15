@@ -3,7 +3,9 @@ import VueRouter from "vue-router";
 import Login from "./auth/Login";
 import Logout from "./auth/Logout";
 
-import Titles from "./frontend/Titles";
+import App from "./app/App";
+import Admin from "./admin/Admin";
+import StoreTitle from "./admin/StoreTitle";
 const routes = [
     {
         path: '/login',
@@ -17,14 +19,38 @@ const routes = [
     },
     {
         path: '/filmes/:channel',
-        component: Titles,
+        component: App,
         name: 'movies',
         props: {table: 'movies'}
     },
     {
         path: '/series/:channel',
-        component: Titles,
+        component: App,
         name: 'series',
+        props: {table: 'series'}
+    },
+    {
+        path: '/admin/filmes/:channel',
+        component: Admin,
+        name: 'admin-movies',
+        props: {table: 'movies'}
+    },
+    {
+        path: '/admin/series/:channel',
+        component: Admin,
+        name: 'admin-series',
+        props: {table: 'series'}
+    },
+    {
+        path: '/admin/novo/filme',
+        component: StoreTitle,
+        name: 'store-movies',
+        props: {table: 'movies'}
+    },
+    {
+        path: '/admin/nova/serie',
+        component: StoreTitle,
+        name: 'store-series',
         props: {table: 'series'}
     },
 ]

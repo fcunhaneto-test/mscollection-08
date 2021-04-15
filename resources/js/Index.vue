@@ -10,7 +10,6 @@ export default {
         subheader: String,
     },
     created() {
-        console.log('SUBHEADER', this.$route.params.channel)
         this.$store.commit('SET_HEADER', this.header)
         this.$store.commit('SET_SUB_HEADER', this.subheader)
         this.$store.commit('SET_CHANNEL', this.$route.params.channel)

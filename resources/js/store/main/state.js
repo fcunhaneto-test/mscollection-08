@@ -3,4 +3,6 @@ export default {
     header: '',
     subheader: '',
     channel: null,
+    media: null,
+    categories: null,
 }

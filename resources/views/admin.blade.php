@@ -8,6 +8,6 @@
 
 @can('isAdmin')
     @section('content')
-        <admin :header="'{{ $header }}'" :subheader="'{{ $subheader }}'"></admin>
+        <index :header="'{{ $header }}'" :subheader="'{{ $subheader }}'"></index>
     @endsection
 @endcan

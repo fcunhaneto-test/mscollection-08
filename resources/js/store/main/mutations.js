@@ -3,4 +3,6 @@ export default {
     SET_HEADER: (state, payload) => { state.header = payload },
     SET_SUB_HEADER: (state, payload) => { state.subheader = payload },
     SET_CHANNEL: (state, payload) => { state.channel = payload },
+    SET_MEDIA: (state, payload) => { state.media = payload },
+    SET_CATEGORIES: (state, payload) => { state.categories = payload },
 }

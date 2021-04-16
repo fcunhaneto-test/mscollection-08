@@ -32,8 +32,9 @@ class TitleController extends Controller
 
         if(Auth::user()) {
             if(Auth::user()->role == 'admin') {
-                $media = Media::all();
-                $subheader = $media->where('slug', $channel)->first()->name;
+                $c_media = new Media();
+                $media = $c_media->where('active', true)->get();
+                $subheader = $c_media->where('slug', $channel)->first()->name;
                 return view($view, compact('header', 'subheader', 'media'));
             }
         }
@@ -55,7 +56,7 @@ class TitleController extends Controller
         $title = new Title();
         $exist = $title->where('title', '=', $request->title)->where('year', '=', $request->year)->count();
         if ($exist) {
-            return response()->json(['title' => $request->title], 202);
+            return response()->json('', 200);
         }
 
         $title->title = $request->title;
@@ -64,6 +65,7 @@ class TitleController extends Controller
         $title->time = $request->time;
         $title->our_rating = $request->our_rating;
         $title->imdb_rating = $request->imdb_rating;
+        $title->country = $request->country;
         $title->category_1 = $request->category_1;
         $title->category_2 = $request->category_2;
         $title->category_3 = $request->category_3;
@@ -84,6 +86,6 @@ class TitleController extends Controller
         curl_close($ch);
         Storage::disk('posters')->put($title->poster, $result);
 
-        return response()->json($title->id, 200);
+        return response()->json($title->id, 201);
     }
 }

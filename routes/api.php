@@ -19,6 +19,10 @@ Route::prefix('media')->group(function() {
     Route::get('', 'Qualifiers\MediaController@index');
 });
 
+Route::prefix('country')->group(function() {
+    Route::get('', 'Qualifiers\CountryController@index');
+});
+
 Route::prefix('category')->group(function() {
     Route::get('', 'Qualifiers\CategoryController@index');
 });

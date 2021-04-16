@@ -24,10 +24,10 @@ class CreateTitlesTable extends Migration
             $table->string('category_3', 25)->nullable();
             $table->unsignedTinyInteger('our_rating')->default(0);
             $table->decimal('imdb_rating', 10, 1)->default(0);
+            $table->string('country')->nullable();
             $table->string('poster')->nullable();
             $table->text('summary')->nullable();
             $table->boolean('is_movie')->default(true);
-
             $table->unique(['title', 'year']);
             $table->foreign('category_1')->on('categories')->references('name')
                 ->onUpdate('cascade')->onDelete('set null');

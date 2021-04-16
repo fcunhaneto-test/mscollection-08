@@ -28,7 +28,7 @@
 export default {
     name: "Titles",
     props: {
-        table: String,
+        table: Number,
     },
     computed: {
         header() { return this.$store.getters.getHeader },

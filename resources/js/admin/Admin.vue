@@ -33,7 +33,7 @@
 export default {
     name: "TitlesAdmin",
     props: {
-        table: String,
+        table: Number,
     },
     data() {
         return {

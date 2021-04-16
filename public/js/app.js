@@ -1929,7 +1929,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "TitlesAdmin",
   props: {
-    table: String
+    table: Number
   },
   data: function data() {
     return {
@@ -2231,10 +2231,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "TitleStore",
   props: {
-    table: String
+    table: Number
   },
   data: function data() {
     return {
@@ -2253,6 +2259,7 @@ __webpack_require__.r(__webpack_exports__);
         category_1: null,
         category_2: null,
         category_3: null,
+        country: null,
         poster: '',
         summary: '',
         media: [],
@@ -2262,7 +2269,8 @@ __webpack_require__.r(__webpack_exports__);
       imdb: '',
       title_id: 0,
       cast: [],
-      producers: []
+      producers: [],
+      countries: null
     };
   },
   computed: {
@@ -2413,10 +2421,10 @@ __webpack_require__.r(__webpack_exports__);
       this.formData.original_title = this.formData.original_title.trim();
       this.formData.media = JSON.stringify(this.formData.media);
       axios.post("/api/title/store", this.formData).then(function (response) {
-        if (response.status === 200) {
+        if (response.status === 201) {
           _this2.title_id = parseInt(response.data);
           _this2.titleSaved = true;
-        } else if (response.status === 304) {
+        } else if (response.status === 200) {
           _this2.titleExist = true;
         }
       })["catch"](function (error) {
@@ -2494,9 +2502,18 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   beforeMount: function beforeMount() {
-    if (this.table === 'series') {
-      this.formData.is_movie = false;
+    if (!this.table) {
+      this.formData.is_movie = 0;
     }
+  },
+  created: function created() {
+    var _this3 = this;
+
+    axios.get('/api/country').then(function (response) {
+      _this3.countries = response.data;
+    })["catch"](function (error) {
+      return console.error(error);
+    });
   }
 });
 
@@ -2542,7 +2559,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Titles",
   props: {
-    table: String
+    table: Number
   },
   computed: {
     header: function header() {
@@ -2770,42 +2787,42 @@ var routes = [{
   component: _app_App__WEBPACK_IMPORTED_MODULE_2__.default,
   name: 'movies',
   props: {
-    table: 'movies'
+    table: 1
   }
 }, {
   path: '/series/:channel',
   component: _app_App__WEBPACK_IMPORTED_MODULE_2__.default,
   name: 'series',
   props: {
-    table: 'series'
+    table: 0
   }
 }, {
   path: '/admin/filmes/:channel',
   component: _admin_Admin__WEBPACK_IMPORTED_MODULE_3__.default,
   name: 'admin-movies',
   props: {
-    table: 'movies'
+    table: 1
   }
 }, {
   path: '/admin/series/:channel',
   component: _admin_Admin__WEBPACK_IMPORTED_MODULE_3__.default,
   name: 'admin-series',
   props: {
-    table: 'series'
+    table: 0
   }
 }, {
   path: '/admin/novo/filme',
   component: _admin_StoreTitle__WEBPACK_IMPORTED_MODULE_4__.default,
   name: 'store-movies',
   props: {
-    table: 'movies'
+    table: 1
   }
 }, {
   path: '/admin/nova/serie',
   component: _admin_StoreTitle__WEBPACK_IMPORTED_MODULE_4__.default,
   name: 'store-series',
   props: {
-    table: 'series'
+    table: 0
   }
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__.default({
@@ -38826,7 +38843,7 @@ var render = function() {
       _c("div", { staticClass: "columns is-centered" }, [
         _c(
           "div",
-          { staticClass: "column is-four-fifths" },
+          { staticClass: "column is-full-widescreen" },
           [
             _c("b-loading", {
               attrs: { "is-full-page": true, "can-cancel": true },
@@ -39004,7 +39021,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "column is-3" }, [
+              _c("div", { staticClass: "column is-2" }, [
                 _c("div", { staticClass: "field" }, [
                   _c(
                     "label",
@@ -39036,8 +39053,8 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "column is-3" }, [
-                _vm.table === "movies"
+              _c("div", { staticClass: "column is-2" }, [
+                _vm.table
                   ? _c("div", { staticClass: "field" }, [
                       _c(
                         "label",
@@ -39070,7 +39087,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "column is-3" }, [
+              _c("div", { staticClass: "column is-2" }, [
                 _c(
                   "div",
                   { staticClass: "field" },
@@ -39111,7 +39128,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "column is-3" }, [
+              _c("div", { staticClass: "column is-2" }, [
                 _c("div", { staticClass: "field" }, [
                   _c("label", { staticClass: "label" }, [
                     _vm._v("IMDB Rating")
@@ -39151,6 +39168,43 @@ var render = function() {
                 [
                   _c(
                     "b-field",
+                    { staticClass: "form-edit", attrs: { label: "País" } },
+                    [
+                      _c("b-input", {
+                        staticStyle: { width: "100%" },
+                        attrs: { list: "country", name: "country" },
+                        model: {
+                          value: _vm.formData.country,
+                          callback: function($$v) {
+                            _vm.$set(_vm.formData, "country", $$v)
+                          },
+                          expression: "formData.country"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "datalist",
+                        { attrs: { id: "country" } },
+                        _vm._l(_vm.countries, function(country) {
+                          return _c("option", {
+                            domProps: { value: country.name }
+                          })
+                        }),
+                        0
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "column is-4" },
+                [
+                  _c(
+                    "b-field",
                     {
                       staticClass: "form-edit",
                       attrs: { label: "Categoria 1" }
@@ -39173,7 +39227,6 @@ var render = function() {
                         { attrs: { id: "categories_1" } },
                         _vm._l(_vm.categories, function(category) {
                           return _c("option", {
-                            staticStyle: { color: "red" },
                             domProps: { value: category.name }
                           })
                         }),
@@ -39214,7 +39267,6 @@ var render = function() {
                         { attrs: { id: "categories_2" } },
                         _vm._l(_vm.categories, function(category) {
                           return _c("option", {
-                            staticStyle: { color: "red" },
                             domProps: { value: category.name }
                           })
                         }),
@@ -39255,7 +39307,6 @@ var render = function() {
                         { attrs: { id: "categories_3" } },
                         _vm._l(_vm.categories, function(category) {
                           return _c("option", {
-                            staticStyle: { color: "red" },
                             domProps: { value: category.name }
                           })
                         }),
@@ -39274,8 +39325,8 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "columns is-multiline" },
-                  _vm._l(_vm.media, function(m) {
-                    return _c("div", { staticClass: "column is-3" }, [
+                  _vm._l(_vm.media, function(_, i) {
+                    return _c("div", { staticClass: "column is-2" }, [
                       _c("input", {
                         directives: [
                           {
@@ -39285,11 +39336,11 @@ var render = function() {
                             expression: "formData.media"
                           }
                         ],
-                        attrs: { id: m.slug, type: "checkbox" },
+                        attrs: { id: _vm.media[i].slug, type: "checkbox" },
                         domProps: {
-                          value: m.id,
+                          value: _vm.media[i].id,
                           checked: Array.isArray(_vm.formData.media)
-                            ? _vm._i(_vm.formData.media, m.id) > -1
+                            ? _vm._i(_vm.formData.media, _vm.media[i].id) > -1
                             : _vm.formData.media
                         },
                         on: {
@@ -39298,7 +39349,7 @@ var render = function() {
                               $$el = $event.target,
                               $$c = $$el.checked ? true : false
                             if (Array.isArray($$a)) {
-                              var $$v = m.id,
+                              var $$v = _vm.media[i].id,
                                 $$i = _vm._i($$a, $$v)
                               if ($$el.checked) {
                                 $$i < 0 &&
@@ -39322,8 +39373,8 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: m.slug } }, [
-                        _vm._v(_vm._s(m.name))
+                      _c("label", { attrs: { for: _vm.media[i].slug } }, [
+                        _vm._v(_vm._s(_vm.media[i].name))
                       ])
                     ])
                   }),
@@ -39626,7 +39677,7 @@ var render = function() {
                 _c("hr"),
                 _vm._v(" "),
                 _c("h2", { staticClass: "title is-4" }, [
-                  _vm.table === "movies"
+                  _vm.table
                     ? _c("span", [_vm._v("Diretores")])
                     : _c("span", [_vm._v("Criadores")])
                 ]),
@@ -39636,7 +39687,7 @@ var render = function() {
                     _c("thead", [
                       _c("tr", [
                         _c("th", { attrs: { scope: "col" } }, [
-                          _vm.table === "movies"
+                          _vm.table
                             ? _c("span", [_vm._v("Diretor")])
                             : _c("span", [_vm._v("Criador")])
                         ]),

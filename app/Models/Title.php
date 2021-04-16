@@ -14,7 +14,7 @@ class Title extends Model
     public $timestamps = false;
     protected $fillable = [
         'title', 'original_title', 'year', 'time', 'category_1', 'category_2', 'category_3', 'our_rating',
-        'imdb_rating', 'poster', 'summary', 'is_movie'
+        'imdb_rating', 'poster', 'summary', 'country', 'is_movie'
     ];
 
      public function producers()

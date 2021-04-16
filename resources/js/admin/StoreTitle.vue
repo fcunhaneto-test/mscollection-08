@@ -2,7 +2,7 @@
     <div class="container is-max-widescreen mt-5">
         <div class="columns is-centered">
 
-            <div class="column is-four-fifths">
+            <div class="column is-full-widescreen">
                 <b-loading :is-full-page="true" v-model="isLoading" :can-cancel="true"></b-loading>
                 <h1 class="title is-3">Inserir Filme</h1>
                 <hr>
@@ -36,19 +36,19 @@
                                    class="input" type="text">
                         </div>
                     </div>
-                    <div class="column is-3">
+                    <div class="column is-2">
                         <div class="field">
                             <label for="year" class="label">Ano</label>
                             <input id="year" name="title" v-model="formData.year" class="input" type="text">
                         </div>
                     </div>
-                    <div class="column is-3">
-                        <div v-if="table === 'movies'" class="field">
+                    <div class="column is-2">
+                        <div v-if="table" class="field">
                             <label for="time" class="label">Tempo</label>
                             <input id="time" name="time" v-model="formData.time" class="input" type="time">
                         </div>
                     </div>
-                    <div class="column is-3">
+                    <div class="column is-2">
                         <div class="field">
                             <label class="label">Rating</label>
                             <a v-for="ys in yellow" :key="'yellow_' + ys" @click="delStar(ys)">
@@ -59,45 +59,51 @@
                             </a>
                         </div>
                     </div>
-                    <div class="column is-3">
+                    <div class="column is-2">
                         <div class="field">
                             <label class="label">IMDB Rating</label>
                             <input type="text" class="input" v-model="formData.imdb_rating"></input>
                         </div>
                     </div>
                     <div class="column is-4">
+                        <b-field label="País" class="form-edit">
+                            <b-input list="country" name="country" v-model="formData.country" style="width: 100%;"/>
+                            <datalist id="country">
+                                <option v-for="country in countries" :value="country.name" />
+                            </datalist>
+                        </b-field>
+                    </div>
+                    <div class="column is-4">
                         <b-field label="Categoria 1" class="form-edit">
                             <b-input list="categories_1" name="category" v-model="formData.category_1"
-                                     style="width: 100%;"/>
+                                     style="width: 100%;" />
                             <datalist id="categories_1">
-                                <option v-for="category in categories" :value="category.name" style="color: red"/>
+                                <option v-for="category in categories" :value="category.name" />
                             </datalist>
                         </b-field>
                     </div>
                     <div class="column is-4">
                         <b-field label="Categoria 2" class="form-edit">
-                            <b-input list="categories_2" name="category" v-model="formData.category_2"
-                                     style="width: 100%;"/>
+                            <b-input list="categories_2" name="category" v-model="formData.category_2" style="width: 100%;" />
                             <datalist id="categories_2">
-                                <option v-for="category in categories" :value="category.name" style="color: red"/>
+                                <option v-for="category in categories" :value="category.name" />
                             </datalist>
                         </b-field>
                     </div>
                     <div class="column is-4">
                         <b-field label="Categoria 3" class="form-edit">
-                            <b-input list="categories_3" name="category" v-model="formData.category_3"
-                                     style="width: 100%;"/>
+                            <b-input list="categories_3" name="category" v-model="formData.category_3" style="width: 100%;" />
                             <datalist id="categories_3">
-                                <option v-for="category in categories" :value="category.name" style="color: red"/>
+                                <option v-for="category in categories" :value="category.name" />
                             </datalist>
                         </b-field>
                     </div>
                     <div class="column is-12 mb-0 pb-0">
                         <label class="label">Mídia</label>
                         <div class="columns is-multiline">
-                            <div v-for="m in media" class="column is-3">
-                                <input :id="m.slug" type="checkbox" :value="m.id" v-model="formData.media">
-                                <label :for="m.slug">{{ m.name }}</label>
+                            <div v-for="(_, i) in media" class="column is-2">
+                                <input :id="media[i].slug" type="checkbox" :value="media[i].id" v-model="formData.media">
+                                <label :for="media[i].slug">{{ media[i].name }}</label>
                             </div>
                         </div>
                         <br>
@@ -161,7 +167,7 @@
                     <div class="column is-12">
                         <hr>
                         <h2 class="title is-4">
-                            <span v-if="table === 'movies'">Diretores</span>
+                            <span v-if="table">Diretores</span>
                             <span v-else>Criadores</span>
                         </h2>
                         <div class="column is-12">
@@ -169,7 +175,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">
-                                        <span v-if="table === 'movies'">Diretor</span>
+                                        <span v-if="table">Diretor</span>
                                         <span v-else>Criador</span>
                                     </th>
                                     <th scope="col">Ordem</th>
@@ -228,7 +234,7 @@
 export default {
     name: "TitleStore",
     props: {
-        table: String,
+        table: Number,
     },
     data() {
         return {
@@ -247,6 +253,7 @@ export default {
                 category_1: null,
                 category_2: null,
                 category_3: null,
+                country: null,
                 poster: '',
                 summary: '',
                 media: [],
@@ -257,6 +264,7 @@ export default {
             title_id: 0,
             cast: [],
             producers: [],
+            countries: null,
         }
     },
     computed: {
@@ -382,10 +390,10 @@ export default {
             this.formData.original_title = this.formData.original_title.trim()
             this.formData.media = JSON.stringify(this.formData.media)
             axios.post(`/api/title/store`, this.formData).then(response => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     this.title_id = parseInt(response.data);
                     this.titleSaved = true
-                } else if ((response.status === 304)) {
+                } else if ((response.status === 200)) {
                     this.titleExist = true
                 }
             }).catch(error => {
@@ -459,9 +467,14 @@ export default {
         },
     },
     beforeMount() {
-        if(this.table === 'series') {
-            this.formData.is_movie = false
+        if(!this.table) {
+            this.formData.is_movie = 0
         }
+    },
+    created() {
+        axios.get('/api/country').then(response => {
+            this.countries = response.data
+        }).catch(error => console.error(error))
     }
 }
 </script>

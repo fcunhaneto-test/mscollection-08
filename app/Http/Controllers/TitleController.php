@@ -46,6 +46,18 @@ class TitleController extends Controller
         return view('app', compact('header', 'subheader', 'media'));
     }
 
+    public function titlesPage($channel, $page, $pp, $is_movie)
+    {
+        $c_media = new Media();
+        $media = $c_media->where('slug', $channel)->first();
+        $offset = ($page - 1) * $pp;
+        $titles = $media->titles()
+                    ->where('titles.is_movie', $is_movie)
+                    ->orderBy('titles.title')
+                    ->offset($offset)->limit($pp)->get();
+        return $titles;
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

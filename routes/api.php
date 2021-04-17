@@ -35,6 +35,8 @@ Route::prefix('cast')->group(function() {
     Route::post('/store', 'Cast\CastController@store');
 });
 
+
 Route::prefix('title')->group(function() {
+    Route::get('/titles-page/{channel}/{page}/{pp}/{is_movie}', 'TitleController@titlesPage');
     Route::post('/store', 'TitleController@store');
 });

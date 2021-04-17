@@ -45,4 +45,5 @@ class Title extends Model
     {
         return $this->hasMany(Season::class);
     }
+
 }

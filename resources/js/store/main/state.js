@@ -5,4 +5,6 @@ export default {
     channel: null,
     media: null,
     categories: null,
+    titles: null,
+    title: null,
 }

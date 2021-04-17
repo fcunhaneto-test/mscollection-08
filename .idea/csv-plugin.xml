@@ -129,6 +129,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/resources/js/app/components/TitlesTable.vue">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/resources/js/frontend/Titles.vue">
           <value>
             <Attribute>
@@ -137,6 +144,13 @@
           </value>
         </entry>
         <entry key="/resources/js/routes.js">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/resources/js/store/main/state.js">
           <value>
             <Attribute>
               <option name="separator" value=":" />

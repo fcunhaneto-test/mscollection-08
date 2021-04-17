@@ -5,4 +5,6 @@ export default {
     getChannel: state => { return state.channel },
     getMedia: state => { return state.media },
     getCategories: state => { return state.categories},
+    getTitles: state => { return state.titles },
+    getTitle: state => { return state.title },
 }

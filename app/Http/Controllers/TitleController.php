@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Qualifiers\Media;
 use App\Models\Title;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,19 +20,19 @@ class TitleController extends Controller
         $url_path = parse_url($url, PHP_URL_PATH);
         $basename = explode('/', $url_path);
 
-        if($basename[1] == 'admin') {
+        if ($basename[1] == 'admin') {
             $index = 2;
             $view = 'admin';
         }
 
-        if($basename[$index] == 'filmes') {
+        if ($basename[$index] == 'filmes') {
             $header = 'Filmes';
         } else {
             $header = 'Séries';
         }
 
-        if(Auth::user()) {
-            if(Auth::user()->role == 'admin') {
+        if (Auth::user()) {
+            if (Auth::user()->role == 'admin') {
                 $c_media = new Media();
                 $media = $c_media->where('active', true)->get();
                 $subheader = $c_media->where('slug', $channel)->first()->name;
@@ -52,9 +53,9 @@ class TitleController extends Controller
         $media = $c_media->where('slug', $channel)->first();
         $offset = ($page - 1) * $pp;
         $titles = $media->titles()
-                    ->where('titles.is_movie', $is_movie)
-                    ->orderBy('titles.title')
-                    ->offset($offset)->limit($pp)->get();
+            ->where('titles.is_movie', $is_movie)
+            ->orderBy('titles.title')
+            ->offset($offset)->limit($pp)->get();
         return $titles;
     }
 
@@ -97,6 +98,8 @@ class TitleController extends Controller
         $result = curl_exec($ch);
         curl_close($ch);
         Storage::disk('posters')->put($title->poster, $result);
+
+        Auth::user()->titles()->attach($title->id, ['comment' => $request->comment]);
 
         return response()->json($title->id, 201);
     }

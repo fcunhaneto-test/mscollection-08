@@ -28,10 +28,12 @@ Route::prefix('category')->group(function() {
 });
 
 Route::prefix('producer')->group(function() {
+    Route::get('/title/{title_id}', 'Cast\ProducerController@producerTitle');
     Route::post('/store', 'Cast\ProducerController@store');
 });
 
 Route::prefix('cast')->group(function() {
+    Route::get('/title/{title_id}', 'Cast\CastController@castTitle');
     Route::post('/store', 'Cast\CastController@store');
 });
 

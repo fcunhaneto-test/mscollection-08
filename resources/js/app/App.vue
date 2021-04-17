@@ -1,6 +1,6 @@
 <template>
     <div class="container is-full-fullhd mt-5">
-        <div class="columns is-centered is-multiline">
+        <div v-if="is_table" class="columns is-centered is-multiline">
             <div class="column is-6 pb-0">
                 <h1 class="title is-3">{{ header }} {{ subheader }}</h1>
             </div>
@@ -21,21 +21,29 @@
                 </div>
             </div>
             <div class="column is-12">
-                <titles-table :table="table"></titles-table>
+                <titles-table :table="table" @showTitle="showPage($event)"></titles-table>
             </div>
         </div>
+        <title-show v-if="!is_table" :title="title" :table="table" @viewTable="is_table = !is_table"></title-show>
     </div>
 </template>
 
 <script>
 import TitlesTable from "./components/TitlesTable";
+import TitleShow from "./components/TitleShow";
 export default {
     name: "Titles",
     components: {
-        TitlesTable
+        TitlesTable,
+        TitleShow
     },
     props: {
         table: Number,
+    },
+    data() {
+        return {
+            is_table: true,
+        }
     },
     computed: {
         header() { return this.$store.getters.getHeader },
@@ -44,6 +52,10 @@ export default {
         pp() { return this.$store.getters.getPp }
     },
     methods: {
+        showPage(event) {
+            this.is_table = false
+            this.title = event
+        },
         newPp() {
             //
         },

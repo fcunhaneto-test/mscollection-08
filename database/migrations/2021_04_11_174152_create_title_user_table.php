@@ -16,7 +16,7 @@ class CreateTitleUserTable extends Migration
         Schema::create('title_user', function (Blueprint $table) {
             $table->unsignedInteger('title_id');
             $table->unsignedInteger('user_id');
-            $table->unsignedTinyInteger('user_rating');
+            $table->unsignedTinyInteger('user_rating')->default(0);
             $table->text('comment')->nullable();
 
             $table->primary(['title_id', 'user_id']);

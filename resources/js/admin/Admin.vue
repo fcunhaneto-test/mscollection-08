@@ -25,13 +25,19 @@
                 <button class="button is-info ml-3" @click="newSeries">Nova Série</button>
             </div>
         </div>
+        <div class="column is-12">
+            <titles-table :table="table"></titles-table>
+        </div>
     </div>
 </template>
 
 <script>
-
+import AdminTitlesTable from "./components/AdminTitlesTable";
 export default {
     name: "TitlesAdmin",
+    components: {
+        'titles-table': AdminTitlesTable,
+    },
     props: {
         table: Number,
     },
@@ -58,9 +64,6 @@ export default {
         }
     },
     methods: {
-        startTitles() {
-            //
-        },
         showPage(event) {
             //
         },
@@ -72,10 +75,16 @@ export default {
         },
         newSeries() {
             this.$router.push({name: 'store-series'})
-        }
+        },
+        startTitles() {
+            axios.get(`/api/title/titles-page/${this.channel}/1/${this.pp}/${this.table}`).then(response => {
+                this.$store.commit('SET_TITLES', response.data)
+            })
+        },
     },
     beforeMount() {
         this.selected = this.pp
+        this.startTitles()
     },
     updated() {
         //

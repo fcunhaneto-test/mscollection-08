@@ -56,11 +56,8 @@
             </div>
             <div class="column is-6">
                 <p class="has-text-white-bis">
-                    <sup class="has-text-warning">[1]</sup> Classificação baseada nas notas do IMDB
-                </p>
-                <p class="has-text-white-bis">
-                    <sup class="has-text-warning">[2]</sup> Classificação conforme o gosto desse editor, ver mais em
-                    <a class="has-text-warning" href="#">sobre nós</a>
+                    <sup class="has-text-danger">[1]</sup> Classificação conforme o gosto desse editor, ver mais em
+                    <a class="has-text-orange" href="#">Início</a>
                 </p>
             </div>
         </div>

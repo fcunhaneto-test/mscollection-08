@@ -3,6 +3,20 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/app/Http/Controllers/Cast/CastController.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/app/Http/Controllers/Cast/ProducerController.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/app/Http/Controllers/Qualifiers/CategoryController.php">
           <value>
             <Attribute>
@@ -21,6 +35,13 @@
           <value>
             <Attribute>
               <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/app/Models/Cast/Cast.php">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
@@ -129,6 +150,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/resources/js/app/App.vue">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/resources/js/app/components/TitleShow.vue">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/resources/js/app/components/TitlesTable.vue">
           <value>
             <Attribute>
@@ -150,7 +185,21 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/resources/js/store/main/mutations.js">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/resources/js/store/main/state.js">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/resources/sass/app.scss">
           <value>
             <Attribute>
               <option name="separator" value=":" />

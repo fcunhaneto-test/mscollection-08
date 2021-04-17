@@ -9,7 +9,8 @@
                 <b-collapse :open="false" aria-id="scrapping">
                     <template #trigger>
                         <h2 class="title is-4">
-                            Scrapping <b-button label="+" type="is-primary" class="is-small" aria-controls="scraping" />
+                            Scrapping
+                            <b-button label="+" type="is-primary" class="is-small" aria-controls="scraping"/>
                         </h2>
                     </template>
                     <div class="field-body">
@@ -22,7 +23,7 @@
                 </b-collapse>
                 <hr>
                 <h2 class="title is-4">{{ header }} Formulário</h2>
-                <div class="columns is-multiline">
+                <div v-if="!titleSaved" class="columns is-multiline">
                     <div class="column is-6">
                         <div class="field">
                             <label for="title" class="label">Título</label>
@@ -69,32 +70,34 @@
                         <b-field label="País" class="form-edit">
                             <b-input list="country" name="country" v-model="formData.country" style="width: 100%;"/>
                             <datalist id="country">
-                                <option v-for="country in countries" :value="country.name" />
+                                <option v-for="country in countries" :value="country.name"/>
                             </datalist>
                         </b-field>
                     </div>
                     <div class="column is-4">
                         <b-field label="Categoria 1" class="form-edit">
                             <b-input list="categories_1" name="category" v-model="formData.category_1"
-                                     style="width: 100%;" />
+                                     style="width: 100%;"/>
                             <datalist id="categories_1">
-                                <option v-for="category in categories" :value="category.name" />
+                                <option v-for="category in categories" :value="category.name"/>
                             </datalist>
                         </b-field>
                     </div>
                     <div class="column is-4">
                         <b-field label="Categoria 2" class="form-edit">
-                            <b-input list="categories_2" name="category" v-model="formData.category_2" style="width: 100%;" />
+                            <b-input list="categories_2" name="category" v-model="formData.category_2"
+                                     style="width: 100%;"/>
                             <datalist id="categories_2">
-                                <option v-for="category in categories" :value="category.name" />
+                                <option v-for="category in categories" :value="category.name"/>
                             </datalist>
                         </b-field>
                     </div>
                     <div class="column is-4">
                         <b-field label="Categoria 3" class="form-edit">
-                            <b-input list="categories_3" name="category" v-model="formData.category_3" style="width: 100%;" />
+                            <b-input list="categories_3" name="category" v-model="formData.category_3"
+                                     style="width: 100%;"/>
                             <datalist id="categories_3">
-                                <option v-for="category in categories" :value="category.name" />
+                                <option v-for="category in categories" :value="category.name"/>
                             </datalist>
                         </b-field>
                     </div>
@@ -102,7 +105,8 @@
                         <label class="label">Mídia</label>
                         <div class="columns is-multiline">
                             <div v-for="(_, i) in media" class="column is-2">
-                                <input :id="media[i].slug" type="checkbox" :value="media[i].id" v-model="formData.media">
+                                <input :id="media[i].slug" type="checkbox" :value="media[i].id"
+                                       v-model="formData.media">
                                 <label :for="media[i].slug">{{ media[i].name }}</label>
                             </div>
                         </div>
@@ -124,11 +128,21 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-12">
+                        <div class="field">
+                            <label for="comment" class="label">Nossa Opinião</label>
+                            <div class="control">
+                                <textarea id="comment" class="textarea" v-model="formData.comment"></textarea>
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-4 mt-3"></div>
                     <div class="column is-4 mt-3">
                         <button class="button is-primary is-fullwidth" @click="saveTitle">ENVIAR</button>
                     </div>
                     <div class="column is-4 mt-3"></div>
+                </div>
+                <div v-else class="columns is-multiline">
                     <div class="column is-12">
                         <hr>
                         <h2 class="title is-4">Elenco</h2>
@@ -152,7 +166,8 @@
                                 <td><input type="text" class="input" v-model="ac.actor"></td>
                                 <td><input type="text" class="input" v-model="ac.character"></td>
                                 <td><input type="checkbox" v-model="ac.star"></td>
-                                <td><input type="number" name="order" class="input is-small" v-model="ac.order"></input>
+                                <td><input type="number" name="order" class="input is-small" v-model="ac.order"
+                                           min="1"></input>
                                 </td>
                                 <td>
                                     <button class="button is-link is-small" :disabled="ac.saved"
@@ -189,8 +204,10 @@
                                 </thead>
                                 <tbody>
                                 <tr v-if="producers" v-for="(p, i) in producers" :key="i">
-                                    <td><input type="text" name="director" class="input" v-model="producers[i].producer"></td>
-                                    <td><input type="number" name="order" class="input" v-model="producers[i].order"></input>
+                                    <td><input type="text" name="director" class="input"
+                                               v-model="producers[i].producer"></td>
+                                    <td><input type="number" name="order" class="input"
+                                               v-model="producers[i].order"></input>
                                     </td>
                                     <td>
                                         <button class="button is-link is-small" :disabled="producers[i].saved"
@@ -206,17 +223,17 @@
                 </div>
             </div>
         </div>
-        <b-modal v-model="titleSaved" :width="400" :height="400">
+        <b-modal v-model="saved" :width="400" :height="400">
             <div class="card">
                 <div class="card-content">
                     <div class="content has-text-centered">
                         <p>Filme salvo com sucesso</p>
-                        <button class="button is-primary" autofocus @click="titleSaved = false">FECHAR</button>
+                        <button class="button is-primary" autofocus @click="saved = false">FECHAR</button>
                     </div>
                 </div>
             </div>
         </b-modal>
-        <b-modal v-model="titleExist" :width="400" :height="400">
+        <b-modal v-model="exist" :width="400" :height="400">
             <div class="card">
                 <div class="card-content">
                     <div class="content has-text-centered">
@@ -240,7 +257,8 @@ export default {
         return {
             isLoading: false,
             titleSaved: false,
-            titleExist: false,
+            saved: false,
+            exist: false,
             yellow: 0,
             white: 5,
             formData: {
@@ -249,7 +267,7 @@ export default {
                 year: 1900,
                 time: null,
                 our_rating: 0,
-                imdb_rating: 0,
+                imdb_rating: null,
                 category_1: null,
                 category_2: null,
                 category_3: null,
@@ -258,7 +276,8 @@ export default {
                 summary: '',
                 media: [],
                 img_url: '',
-                is_movie: true
+                is_movie: true,
+                comment: null,
             },
             imdb: '',
             title_id: 0,
@@ -312,7 +331,7 @@ export default {
             axios.request(options1).then(response => {
                 this.formData.original_title = response.data.base.title
                 this.formData.year = response.data.base.year
-                if(this.table === 'movies') {
+                if (this.table === 'movies') {
                     this.formData.time = this.strTime(response.data.base.runningTimeInMinutes)
                 }
                 this.formData.img_url = response.data.base.image.url
@@ -393,6 +412,7 @@ export default {
                 if (response.status === 201) {
                     this.title_id = parseInt(response.data);
                     this.titleSaved = true
+                    this.saved = true
                 } else if ((response.status === 200)) {
                     this.titleExist = true
                 }
@@ -411,6 +431,7 @@ export default {
                     title_id: this.title_id
                 }).then(response => {
                     if (response.status === 200) {
+                        console.log('CAST', response.data)
                         c.saved = true
                     }
                 }).catch(error => {
@@ -467,7 +488,7 @@ export default {
         },
     },
     beforeMount() {
-        if(!this.table) {
+        if (!this.table) {
             this.formData.is_movie = 0
         }
     },

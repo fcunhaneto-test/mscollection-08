@@ -84,6 +84,7 @@ class TitleController extends Controller
         $title->category_3 = $request->category_3;
         $title->poster = str_replace(' ', '', $request->title) . '-' . $request->year . '.jpg';
         $title->summary = $request->summary;
+        $title->our_comment = $request->our_comment;
         $title->is_movie = $request->is_movie;
 
         $title->save();
@@ -98,8 +99,6 @@ class TitleController extends Controller
         $result = curl_exec($ch);
         curl_close($ch);
         Storage::disk('posters')->put($title->poster, $result);
-
-        Auth::user()->titles()->attach($title->id, ['comment' => $request->comment]);
 
         return response()->json($title->id, 201);
     }

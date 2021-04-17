@@ -26,11 +26,11 @@
                             </span>
                         </p>
                         <p class="mt-3">
-                            <span v-if="title.category_3" class="tag is-success">Categorias: {{ title.category_1 }},
+                            <span v-if="title.category_3" class="tag is-light">Categorias: {{ title.category_1 }},
                                     {{ title.category_2 }}, {{ title.category_3}}</span>
-                            <span v-else-if="title.category_2" class="tag is-success">Categorias: {{ title.category_1 }},
+                            <span v-else-if="title.category_2" class="tag is-light">Categorias: {{ title.category_1 }},
                                     {{ title.category_2 }}</span>
-                            <span v-else class="tag is-success">Categorias: {{ title.category_1 }}</span>
+                            <span v-else class="tag is-light">Categorias: {{ title.category_1 }}</span>
                         </p>
                     </div>
                     <div class="media-right">
@@ -45,6 +45,10 @@
                     <div class="mt-5 p-3 this-bordered">
                         <h5 class="title is-6 mb-2 pb-0">Resumo:</h5>
                         <p>{{ title.summary }}</p>
+                    </div>
+                    <div class="mt-5 p-3 this-bordered">
+                        <h5 class="title is-6 mb-2 pb-0">Comentário do Editor:</h5>
+                        <p>{{ title.our_comment }}</p>
                     </div>
                     <table v-if="cast.length > 0" class="table is-fullwidth mt-5 mb-0">
                         <thead class="has-background-white">

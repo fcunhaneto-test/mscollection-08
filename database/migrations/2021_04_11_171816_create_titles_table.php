@@ -27,8 +27,11 @@ class CreateTitlesTable extends Migration
             $table->string('country')->nullable();
             $table->string('poster')->nullable();
             $table->text('summary')->nullable();
+            $table->text('our_comment')->nullable();
             $table->boolean('is_movie')->default(true);
+
             $table->unique(['title', 'year']);
+
             $table->foreign('category_1')->on('categories')->references('name')
                 ->onUpdate('cascade')->onDelete('set null');
             $table->foreign('category_2')->on('categories')->references('name')

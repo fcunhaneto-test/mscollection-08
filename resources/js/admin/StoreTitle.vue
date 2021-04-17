@@ -130,9 +130,9 @@
                     </div>
                     <div class="column is-12">
                         <div class="field">
-                            <label for="comment" class="label">Nossa Opinião</label>
+                            <label for="comment" class="label">Nosso Comentário</label>
                             <div class="control">
-                                <textarea id="comment" class="textarea" v-model="formData.comment"></textarea>
+                                <textarea id="comment" class="textarea" v-model="formData.our_comment"></textarea>
                             </div>
                         </div>
                     </div>
@@ -277,7 +277,7 @@ export default {
                 media: [],
                 img_url: '',
                 is_movie: true,
-                comment: null,
+                our_comment: null,
             },
             imdb: '',
             title_id: 0,

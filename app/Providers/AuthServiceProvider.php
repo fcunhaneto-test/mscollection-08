@@ -34,5 +34,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isSubs', function($user) {
             return $user->role == 'subscriber';
         });
+
+        //define a subscriber user role
+        Gate::define('isLogin', function($user) {
+            return $user->role == 'admin' || $user->role == 'subscriber';
+        });
     }
 }

@@ -2297,7 +2297,7 @@ __webpack_require__.r(__webpack_exports__);
         media: [],
         img_url: '',
         is_movie: true,
-        comment: null
+        our_comment: null
       },
       imdb: '',
       title_id: 0,
@@ -2725,6 +2725,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
 //
 //
 //
@@ -40086,7 +40090,7 @@ var render = function() {
                       _c(
                         "label",
                         { staticClass: "label", attrs: { for: "comment" } },
-                        [_vm._v("Nossa Opinião")]
+                        [_vm._v("Nosso Comentário")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "control" }, [
@@ -40095,13 +40099,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.formData.comment,
-                              expression: "formData.comment"
+                              value: _vm.formData.our_comment,
+                              expression: "formData.our_comment"
                             }
                           ],
                           staticClass: "textarea",
                           attrs: { id: "comment" },
-                          domProps: { value: _vm.formData.comment },
+                          domProps: { value: _vm.formData.our_comment },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -40109,7 +40113,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.formData,
-                                "comment",
+                                "our_comment",
                                 $event.target.value
                               )
                             }
@@ -40960,7 +40964,7 @@ var render = function() {
             _vm._v(" "),
             _c("p", { staticClass: "mt-3" }, [
               _vm.title.category_3
-                ? _c("span", { staticClass: "tag is-success" }, [
+                ? _c("span", { staticClass: "tag is-light" }, [
                     _vm._v(
                       "Categorias: " +
                         _vm._s(_vm.title.category_1) +
@@ -40971,7 +40975,7 @@ var render = function() {
                     )
                   ])
                 : _vm.title.category_2
-                ? _c("span", { staticClass: "tag is-success" }, [
+                ? _c("span", { staticClass: "tag is-light" }, [
                     _vm._v(
                       "Categorias: " +
                         _vm._s(_vm.title.category_1) +
@@ -40979,7 +40983,7 @@ var render = function() {
                         _vm._s(_vm.title.category_2)
                     )
                   ])
-                : _c("span", { staticClass: "tag is-success" }, [
+                : _c("span", { staticClass: "tag is-light" }, [
                     _vm._v("Categorias: " + _vm._s(_vm.title.category_1))
                   ])
             ])
@@ -41018,6 +41022,14 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("p", [_vm._v(_vm._s(_vm.title.summary))])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mt-5 p-3 this-bordered" }, [
+            _c("h5", { staticClass: "title is-6 mb-2 pb-0" }, [
+              _vm._v("Comentário do Editor:")
+            ]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.title.our_comment))])
           ]),
           _vm._v(" "),
           _vm.cast.length > 0

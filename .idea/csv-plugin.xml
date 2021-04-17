@@ -80,6 +80,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/app/Providers/AuthServiceProvider.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/database/migrations/2014_10_12_000000_create_users_table.php">
           <value>
             <Attribute>

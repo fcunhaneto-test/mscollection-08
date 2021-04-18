@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateMediaTable extends Migration
@@ -19,6 +20,7 @@ class CreateMediaTable extends Migration
             $table->string('slug', 25)->unique();
             $table->boolean('active')->default(true);
             $table->boolean('stream')->default(false);
+            $table->timestamps();
         });
     }
 

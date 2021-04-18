@@ -4,9 +4,10 @@
             <div class="card is-bordered">
                 <div class="media has-background-black">
                     <div class="media-left p-2">
-                        <img v-if="title.poster" :src="'../storage/images/posters/' + title.poster" width="182" height="268"
+                        <img v-if="title.poster" :src="'../storage/images/posters/' + title.poster" width="182"
+                             height="268"
                              alt="poster do filme">
-                        <img v-else :src="'../storage/images/posters/faker-poster.png'" width="150" height="203"
+                        <img v-else :src="'../storage/images/posters/faker-poster.png'" width="182" height="268"
                              alt="poster do filme">
                     </div>
                     <div class="media-content">
@@ -17,7 +18,7 @@
                         </p>
                         <p class="mt-3">
                             <span class="tag is-info">
-                                <span class="mr-2">IMDB rating: {{ title.imdb_rating}}</span>
+                                <span class="mr-2">IMDB rating: {{ title.imdb_rating }}</span>
                             </span>
                             <span class="tag is-info">
                                 <span class="mr-2">Editor rating:</span>
@@ -27,7 +28,7 @@
                         </p>
                         <p class="mt-3">
                             <span v-if="title.category_3" class="tag is-light">Categorias: {{ title.category_1 }},
-                                    {{ title.category_2 }}, {{ title.category_3}}</span>
+                                    {{ title.category_2 }}, {{ title.category_3 }}</span>
                             <span v-else-if="title.category_2" class="tag is-light">Categorias: {{ title.category_1 }},
                                     {{ title.category_2 }}</span>
                             <span v-else class="tag is-light">Categorias: {{ title.category_1 }}</span>
@@ -46,39 +47,48 @@
                         <h5 class="title is-6 mb-2 pb-0">Resumo:</h5>
                         <p>{{ title.summary }}</p>
                     </div>
-                    <div class="mt-5 p-3 this-bordered">
+                    <div v-if="title.our_comment" class="mt-5 p-3 this-bordered">
                         <h5 class="title is-6 mb-2 pb-0">Comentário do Editor:</h5>
                         <p>{{ title.our_comment }}</p>
                     </div>
-                    <table v-if="cast.length > 0" class="table is-fullwidth mt-5 mb-0">
-                        <thead class="has-background-white">
-                        <tr>
-                            <th class="title is-6">Ator/Personagem</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="ac in cast">
-                            <td class="pl-5">{{ ac.actor }}</td>
-                            <td>{{ ac.character }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <table v-if="producers.length > 0" class="table is-fullwidth mt-5">
-                        <thead class="has-background-white">
-                        <tr>
-                            <th class="title is-6">
-                                <span v-if="table">Diretor(es)</span>
-                                <span v-else>Criador(es)</span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="producer in producers">
-                            <td class="pl-5">{{ producer.name }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="mt-5">
+                        <b-collapse :open="false" aria-id="contentActors">
+                            <template #trigger>
+                                <button class="button bg-purple has-text-white is-rounded mb-0">
+                                    <span>Ator/Personagem</span>
+                                </button>
+                            </template>
+                            <div class="notification mt-0 pt-0">
+                                <table v-if="cast.length > 0" class="table is-fullwidth mt-5 mb-0">
+                                    <tbody>
+                                    <tr v-for="ac in cast">
+                                        <td class="pl-5">{{ ac.actor }}</td>
+                                        <td>{{ ac.character }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </b-collapse>
+                    </div>
+                    <div class="mt-5">
+                        <b-collapse :open="false" aria-id="contentActors">
+                            <template #trigger>
+                                <button class="button bg-purple has-text-white is-rounded mb-0">
+                                    <span v-if="title.is_movie" class="producer">Diretor(es)</span>
+                                    <span v-else class="producer">Criador(es)</span>
+                                </button>
+                            </template>
+                            <div class="notification mt-0 pt-0">
+                                <table v-if="producers.length > 0" class="table is-fullwidth mt-5">
+                                    <tbody>
+                                    <tr v-for="producer in producers">
+                                        <td class="pl-5">{{ producer.name }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </b-collapse>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,6 +105,7 @@ export default {
     },
     data() {
         return {
+            actorClose: true,
             cast: [],
             cast_total: 0,
             producers: [],
@@ -125,15 +136,16 @@ export default {
 </script>
 
 <style scoped>
-.card-header {
-    width: 100%;
-}
 .tag, table {
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .this-bordered {
     border: 2px solid #8E24AA;
     border-radius: 15px;
+}
+
+.bg-purple {
+    background-color: #8E24AA;
 }
 </style>

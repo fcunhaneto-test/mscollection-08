@@ -122,6 +122,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/database/migrations/2021_04_11_173349_create_media_title_table.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/database/migrations/2021_04_11_174152_create_title_user_table.php">
           <value>
             <Attribute>
@@ -150,7 +157,21 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/resources/js/admin/EditTitle.vue">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/resources/js/admin/StoreTitle.vue">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/resources/js/admin/components/AdminTitlesTable.vue">
           <value>
             <Attribute>
               <option name="separator" value=":" />

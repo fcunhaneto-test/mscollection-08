@@ -6,6 +6,7 @@ import Logout from "./auth/Logout";
 import App from "./app/App";
 import Admin from "./admin/Admin";
 import StoreTitle from "./admin/StoreTitle";
+import EditTitle from "./admin/EditTitle";
 
 const routes = [
     {
@@ -53,6 +54,16 @@ const routes = [
         component: StoreTitle,
         name: 'store-series',
         props: {table: 0}
+    },
+    {
+        path: '/admin/editar/filme',
+        component: EditTitle,
+        name: 'edit-movie',
+    },
+    {
+        path: '/admin/editar/series',
+        component: EditTitle,
+        name: 'edit-series',
     },
 ]
 

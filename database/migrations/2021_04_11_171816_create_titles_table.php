@@ -29,6 +29,7 @@ class CreateTitlesTable extends Migration
             $table->text('summary')->nullable();
             $table->text('our_comment')->nullable();
             $table->boolean('is_movie')->default(true);
+            $table->timestamps();
 
             $table->unique(['title', 'year']);
 

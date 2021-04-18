@@ -29,17 +29,20 @@ Route::prefix('category')->group(function() {
 
 Route::prefix('producer')->group(function() {
     Route::get('/title/{title_id}', 'Cast\ProducerController@producerTitle');
-    Route::post('/store', 'Cast\ProducerController@store');
+    Route::post('/store', 'Cast\ProducerController@store')->middleware('can:isAdmin');
 });
 
 Route::prefix('cast')->group(function() {
     Route::get('/title/{title_id}', 'Cast\CastController@castTitle');
-    Route::post('/store', 'Cast\CastController@store');
+    Route::post('/store', 'Cast\CastController@store')->middleware('can:isAdmin');
 });
 
 
 Route::prefix('title')->group(function() {
     Route::get('/titles-page/{channel}/{page}/{pp}/{is_movie}', 'TitleController@titlesPage');
     Route::get('/comments/');
-    Route::post('/store', 'TitleController@store');
+    Route::get('/media/{id}', 'TitleController@media' );
+    Route::post('/store', 'TitleController@store')->middleware('can:isAdmin');
+    Route::put('/update/{id}', 'TitleController@update')->middleware('can:isAdmin');
+
 });

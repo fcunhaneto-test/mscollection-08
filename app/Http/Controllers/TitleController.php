@@ -102,4 +102,43 @@ class TitleController extends Controller
 
         return response()->json($title->id, 201);
     }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required_with|String',
+            'year' => 'required',
+        ]);
+
+        $title = Title::findOrFail($request->id);
+
+        $title->title = $request->title;
+        $title->original_title = $request->original_title;
+        $title->year = $request->year;
+        $title->time = $request->time;
+        $title->our_rating = $request->our_rating;
+        $title->imdb_rating = $request->imdb_rating;
+        $title->country = $request->country;
+        $title->category_1 = $request->category_1;
+        $title->category_2 = $request->category_2;
+        $title->category_3 = $request->category_3;
+        $title->poster = $request->poster;
+        $title->summary = $request->summary;
+        $title->our_comment = $request->our_comment;
+        $title->is_movie = $request->is_movie;
+
+        $title->save();
+
+        $media = json_decode($request->media);
+        $title->media()->sync($media);
+
+        return response()->json('', 200);
+    }
+
+
+    public function media($id)
+    {
+        $title = Title::findOrFail($id);
+        return $title->media;
+    }
 }

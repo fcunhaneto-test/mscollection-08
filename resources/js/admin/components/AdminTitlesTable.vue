@@ -13,8 +13,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="title in titles" :key="title.id">
-            <th scope="row"><a class="table-link" href="#" @click="toPage(title)">{{ title.title }}</a></th>
+        <tr v-for="(title, i) in titles" :key="title.id">
+            <th scope="row"><a class="table-link" @click="toEdit(title)">{{ title.title }}</a></th>
             <td>{{ title.year }}</td>
             <td v-if="table">{{ title.time | strTime }}</td>
             <td>{{ title.imdb_rating}}</td>
@@ -42,8 +42,12 @@ export default {
         }
     },
     methods: {
-        toPage(title) {
-            this.$emit('showTitle', title)
+        toEdit(title) {
+            this.$store.commit('SET_TITLE', title)
+            if(this.table) {
+                this.$router.push({name: 'edit-movie'})
+            }
+            this.$router.push({name: 'edit-series'})
         }
     }
 }

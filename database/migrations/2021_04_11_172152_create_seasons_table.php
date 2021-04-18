@@ -18,6 +18,7 @@ class CreateSeasonsTable extends Migration
             $table->unsignedInteger('title_id');
             $table->unsignedTinyInteger('season');
             $table->year('year');
+            $table->timestamps();
 
             $table->unique(['title_id', 'season']);
             $table->foreign('title_id')->on('titles')->references('id')

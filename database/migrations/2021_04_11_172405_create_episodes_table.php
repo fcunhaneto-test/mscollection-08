@@ -20,6 +20,7 @@ class CreateEpisodesTable extends Migration
             $table->string('title');
             $table->string('original_title')->nullable();
             $table->text('summary')->nullable();
+            $table->timestamps();
 
             $table->unique(['season_id', 'episode']);
             $table->foreign('season_id')->on('seasons')->references('id')

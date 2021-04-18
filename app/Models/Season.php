@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Season extends Model
 {
-    public $timestamps = false;
     protected $fillable = ['title_is', 'season', 'year'];
 
     public function titles()

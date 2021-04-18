@@ -136,11 +136,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-4 mt-3"></div>
-                    <div class="column is-4 mt-3">
+                    <div class="column is-4 mt-3 mb-6 pb-6"></div>
+                    <div class="column is-4 mt-3 mb-6 pb-6">
                         <button class="button is-primary is-fullwidth" @click="saveTitle">ENVIAR</button>
                     </div>
-                    <div class="column is-4 mt-3"></div>
+                    <div class="column is-4 mt-3 mb-6 pb-6"></div>
                 </div>
                 <div v-else class="columns is-multiline">
                     <div class="column is-12">
@@ -179,46 +179,44 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="column is-12">
+                    <div class="column is-12 mb-6 pb-6">
                         <hr>
                         <h2 class="title is-4">
                             <span v-if="table">Diretores</span>
                             <span v-else>Criadores</span>
                         </h2>
-                        <div class="column is-12">
-                            <table class="table is-fullwidth">
-                                <thead>
-                                <tr>
-                                    <th scope="col">
-                                        <span v-if="table">Diretor</span>
-                                        <span v-else>Criador</span>
-                                    </th>
-                                    <th scope="col">Ordem</th>
-                                    <th scope="col">
-                                        <b-tooltip label="Novo">
-                                            <b-button class="button is-info is-small" @click="addProducer">
-                                                <i class="fas fa-plus"></i></b-button>
-                                        </b-tooltip>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-if="producers" v-for="(p, i) in producers" :key="i">
-                                    <td><input type="text" name="director" class="input"
-                                               v-model="producers[i].producer"></td>
-                                    <td><input type="number" name="order" class="input"
-                                               v-model="producers[i].order"></input>
-                                    </td>
-                                    <td>
-                                        <button class="button is-link is-small" :disabled="producers[i].saved"
-                                                @click="saveProducer(producers[i])">
-                                            salvar
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table is-fullwidth">
+                            <thead>
+                            <tr>
+                                <th scope="col">
+                                    <span v-if="table">Diretor</span>
+                                    <span v-else>Criador</span>
+                                </th>
+                                <th scope="col">Ordem</th>
+                                <th scope="col">
+                                    <b-tooltip label="Novo">
+                                        <b-button class="button is-info is-small" @click="addProducer">
+                                            <i class="fas fa-plus"></i></b-button>
+                                    </b-tooltip>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-if="producers" v-for="(p, i) in producers" :key="i">
+                                <td><input type="text" name="director" class="input"
+                                           v-model="producers[i].producer"></td>
+                                <td><input type="number" name="order" class="input"
+                                           v-model="producers[i].order"></input>
+                                </td>
+                                <td>
+                                    <button class="button is-link is-small" :disabled="producers[i].saved"
+                                            @click="saveProducer(producers[i])">
+                                        salvar
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -249,7 +247,7 @@
 <script>
 
 export default {
-    name: "TitleStore",
+    name: "StoreTitle",
     props: {
         table: Number,
     },
@@ -306,7 +304,7 @@ export default {
                 this.yellow = ys
                 this.white = 5 - ys
             }
-            this.formData.rating = this.yellow
+            this.formData.our_rating = this.yellow
         },
         addStar(ws) {
             this.yellow += ws

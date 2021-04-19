@@ -25,12 +25,9 @@
 export default {
     name: "TitlesPaginate",
     props: {
-        pages: Number,
+        table: Number
     },
     computed: {
-        table() {
-            return this.$store.getters.getTable
-        },
         channel() {
             return this.$store.getters.getChannel
         },
@@ -40,11 +37,14 @@ export default {
         page() {
             return this.$store.getters.getPage
         },
+        pages() {
+            return this.$store.getters.getPages
+        }
     },
     methods: {
         getPage(num) {
             this.$store.commit('SET_PAGE', num)
-            axios.get(`/api/${this.table}/titles-page/${this.channel}/${num}/${this.pp}`).then(response => {
+            axios.get(`/api/title/titles-page/${this.channel}/${this.page}/${this.pp}/${this.table}`).then(response => {
                 console.log('SET TITLES', response.data)
                 this.$store.commit('SET_TITLES', response.data)
             }).catch(error => console.log(error))

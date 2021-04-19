@@ -2942,7 +2942,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_TitlesTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/TitlesTable */ "./resources/js/app/components/TitlesTable.vue");
-/* harmony import */ var _components_TitleShow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/TitleShow */ "./resources/js/app/components/TitleShow.vue");
+/* harmony import */ var _components_TitlesPaginate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/TitlesPaginate */ "./resources/js/app/components/TitlesPaginate.vue");
+/* harmony import */ var _components_TitleShow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/TitleShow */ "./resources/js/app/components/TitleShow.vue");
 //
 //
 //
@@ -2973,19 +2974,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Titles",
   components: {
     TitlesTable: _components_TitlesTable__WEBPACK_IMPORTED_MODULE_0__.default,
-    TitleShow: _components_TitleShow__WEBPACK_IMPORTED_MODULE_1__.default
+    TitlesPaginate: _components_TitlesPaginate__WEBPACK_IMPORTED_MODULE_1__.default,
+    TitleShow: _components_TitleShow__WEBPACK_IMPORTED_MODULE_2__.default
   },
   props: {
     table: Number
   },
   data: function data() {
     return {
+      selected: null,
       is_table: true
     };
   },
@@ -3008,13 +3013,19 @@ __webpack_require__.r(__webpack_exports__);
       this.is_table = false;
       this.title = event;
     },
-    newPp: function newPp() {//
+    newPp: function newPp() {
+      this.$store.commit('SET_PP', this.selected);
+      this.startTitles();
     },
     startTitles: function startTitles() {
       var _this = this;
 
-      axios.get("/api/title/titles-page/".concat(this.channel, "/1/").concat(this.pp, "/").concat(this.table)).then(function (response) {
-        _this.$store.commit('SET_TITLES', response.data);
+      axios.get("/api/title/titles-start/".concat(this.channel, "/").concat(this.pp, "/").concat(this.table)).then(function (response) {
+        console.log("DATA", response.data);
+
+        _this.$store.commit('SET_PAGES', response.data[0]);
+
+        _this.$store.commit('SET_TITLES', response.data[1]);
       });
     }
   },
@@ -3176,6 +3187,87 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (errors) {
       return console.log(errors);
     });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/components/TitlesPaginate.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/components/TitlesPaginate.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "TitlesPaginate",
+  props: {
+    table: Number
+  },
+  computed: {
+    channel: function channel() {
+      return this.$store.getters.getChannel;
+    },
+    pp: function pp() {
+      return this.$store.getters.getPp;
+    },
+    page: function page() {
+      return this.$store.getters.getPage;
+    },
+    pages: function pages() {
+      return this.$store.getters.getPages;
+    }
+  },
+  methods: {
+    getPage: function getPage(num) {
+      var _this = this;
+
+      this.$store.commit('SET_PAGE', num);
+      axios.get("/api/title/titles-page/".concat(this.channel, "/").concat(this.page, "/").concat(this.pp, "/").concat(this.table)).then(function (response) {
+        console.log('SET TITLES', response.data);
+
+        _this.$store.commit('SET_TITLES', response.data);
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
+    previous: function previous(num) {
+      if (num !== 0) {
+        this.getPage(num);
+      }
+    },
+    next: function next(num) {
+      if (num !== this.pages + 1) {
+        this.getPage(num);
+      }
+    }
   }
 });
 
@@ -3543,6 +3635,12 @@ __webpack_require__.r(__webpack_exports__);
   getPp: function getPp(state) {
     return state.pp;
   },
+  getPage: function getPage(state) {
+    return state.page;
+  },
+  getPages: function getPages(state) {
+    return state.pages;
+  },
   getHeader: function getHeader(state) {
     return state.header;
   },
@@ -3583,6 +3681,12 @@ __webpack_require__.r(__webpack_exports__);
   SET_PP: function SET_PP(state, payload) {
     state.pp = payload;
   },
+  SET_PAGE: function SET_PAGE(state, payload) {
+    state.page = payload;
+  },
+  SET_PAGES: function SET_PAGES(state, payload) {
+    state.pages = payload;
+  },
   SET_HEADER: function SET_HEADER(state, payload) {
     state.header = payload;
   },
@@ -3621,6 +3725,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   pp: 10,
+  page: 1,
+  pages: 1,
   header: '',
   subheader: '',
   channel: null,
@@ -39153,6 +39259,45 @@ component.options.__file = "resources/js/app/components/TitleShow.vue"
 
 /***/ }),
 
+/***/ "./resources/js/app/components/TitlesPaginate.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/app/components/TitlesPaginate.vue ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TitlesPaginate_vue_vue_type_template_id_bc7a9f22_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TitlesPaginate.vue?vue&type=template&id=bc7a9f22&scoped=true& */ "./resources/js/app/components/TitlesPaginate.vue?vue&type=template&id=bc7a9f22&scoped=true&");
+/* harmony import */ var _TitlesPaginate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TitlesPaginate.vue?vue&type=script&lang=js& */ "./resources/js/app/components/TitlesPaginate.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _TitlesPaginate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _TitlesPaginate_vue_vue_type_template_id_bc7a9f22_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _TitlesPaginate_vue_vue_type_template_id_bc7a9f22_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "bc7a9f22",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/app/components/TitlesPaginate.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/app/components/TitlesTable.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/app/components/TitlesTable.vue ***!
@@ -39398,6 +39543,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/app/components/TitlesPaginate.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/app/components/TitlesPaginate.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TitlesPaginate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TitlesPaginate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/components/TitlesPaginate.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TitlesPaginate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/app/components/TitlesTable.vue?vue&type=script&lang=js&":
 /*!******************************************************************************!*\
   !*** ./resources/js/app/components/TitlesTable.vue?vue&type=script&lang=js& ***!
@@ -39578,6 +39739,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TitleShow_vue_vue_type_template_id_c9b9ab70_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TitleShow_vue_vue_type_template_id_c9b9ab70_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TitleShow.vue?vue&type=template&id=c9b9ab70&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/components/TitleShow.vue?vue&type=template&id=c9b9ab70&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/app/components/TitlesPaginate.vue?vue&type=template&id=bc7a9f22&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/app/components/TitlesPaginate.vue?vue&type=template&id=bc7a9f22&scoped=true& ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TitlesPaginate_vue_vue_type_template_id_bc7a9f22_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TitlesPaginate_vue_vue_type_template_id_bc7a9f22_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TitlesPaginate_vue_vue_type_template_id_bc7a9f22_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TitlesPaginate.vue?vue&type=template&id=bc7a9f22&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/components/TitlesPaginate.vue?vue&type=template&id=bc7a9f22&scoped=true&");
 
 
 /***/ }),
@@ -41930,6 +42108,8 @@ var render = function() {
               "div",
               { staticClass: "column is-12" },
               [
+                _c("titles-paginate", { attrs: { table: _vm.table } }),
+                _vm._v(" "),
                 _c("titles-table", {
                   attrs: { table: _vm.table },
                   on: {
@@ -42246,6 +42426,113 @@ var render = function() {
       ])
     ])
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/components/TitlesPaginate.vue?vue&type=template&id=bc7a9f22&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/app/components/TitlesPaginate.vue?vue&type=template&id=bc7a9f22&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.page
+    ? _c(
+        "nav",
+        {
+          staticClass: "pagination is-small mb-0",
+          attrs: { role: "navigation", "aria-label": "pagination" }
+        },
+        [
+          _c(
+            "ul",
+            { staticClass: "pagination-list" },
+            [
+              _c("li", { staticClass: "pagination-link" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "page-link",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        return _vm.previous(_vm.page - 1)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-angle-double-left" })]
+                )
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.pages, function(page_num, key) {
+                return _vm.page
+                  ? _c(
+                      "li",
+                      {
+                        key: key,
+                        staticClass: "pagination-link",
+                        class: { "is-current": page_num === _vm.page }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            class: { "has-text-white": page_num === _vm.page },
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.getPage(page_num)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(page_num) +
+                                "\n            "
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              }),
+              _vm._v(" "),
+              _c("li", { staticClass: "pagination-link" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "page-link",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        return _vm.next(_vm.page + 1)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-angle-double-right" })]
+                )
+              ])
+            ],
+            2
+          )
+        ]
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

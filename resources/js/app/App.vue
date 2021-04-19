@@ -21,6 +21,7 @@
                 </div>
             </div>
             <div class="column is-12">
+                <titles-paginate :table="table"></titles-paginate>
                 <titles-table :table="table" @showTitle="showPage($event)"></titles-table>
             </div>
         </div>
@@ -30,11 +31,13 @@
 
 <script>
 import TitlesTable from "./components/TitlesTable";
+import TitlesPaginate from "./components/TitlesPaginate";
 import TitleShow from "./components/TitleShow";
 export default {
     name: "Titles",
     components: {
         TitlesTable,
+        TitlesPaginate,
         TitleShow
     },
     props: {
@@ -42,6 +45,7 @@ export default {
     },
     data() {
         return {
+            selected: null,
             is_table: true,
         }
     },
@@ -57,11 +61,14 @@ export default {
             this.title = event
         },
         newPp() {
-            //
+            this.$store.commit('SET_PP', this.selected)
+            this.startTitles()
         },
         startTitles() {
-            axios.get(`/api/title/titles-page/${this.channel}/1/${this.pp}/${this.table}`).then(response => {
-                this.$store.commit('SET_TITLES', response.data)
+            axios.get(`/api/title/titles-start/${this.channel}/${this.pp}/${this.table}`).then(response => {
+                console.log("DATA", response.data)
+                this.$store.commit('SET_PAGES', response.data[0])
+                this.$store.commit('SET_TITLES', response.data[1])
             })
         },
     },

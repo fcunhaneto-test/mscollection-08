@@ -47,6 +47,16 @@ class TitleController extends Controller
         return view('app', compact('header', 'subheader', 'media'));
     }
 
+    public function titlesStart($channel, $pp, $is_movie)
+    {
+        $media = new Media();
+        $id = $media->where('slug', $channel)->first()->id;
+        $media = Media::find($id);
+        $total = ceil($media->titles->count()/$pp);
+        $titles = $media->titles()->where('titles.is_movie', $is_movie)->orderBy('titles.title')->limit($pp)->get();;
+        return [$total, $titles];
+    }
+
     public function titlesPage($channel, $page, $pp, $is_movie)
     {
         $c_media = new Media();

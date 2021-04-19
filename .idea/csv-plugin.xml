@@ -192,6 +192,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/resources/js/app/components/TitlesPaginate.vue">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/resources/js/app/components/TitlesTable.vue">
           <value>
             <Attribute>
@@ -210,6 +217,13 @@
           <value>
             <Attribute>
               <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/resources/js/store/main/getters.js">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
